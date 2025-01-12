@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  server:
+    image: alpinebsp:latest
+    networks:
+      - outside
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - "node.hostname == bsp-server-1"
+    command: ["tail", "-f", "/dev/null"]  # 무한 대기 상태 유지
+
+  client:
+    image: alpinebsp:latest
+    networks:
+      - outside
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - "node.hostname == bsp-server-4"
+    command: ["tail", "-f", "/dev/null"]  # 무한 대기 상태 유지
+
+networks:
+  outside:
+    external:
+      name: "host"
